@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const lastUpdated = 'June 2025';
+---
+
+<BaseLayout
+  title="Terms of Use"
+  description="Terms of Use for pechgroup.com — Pech Group's website terms covering permitted use, disclaimers, and limitations."
+>
+
+  <section class="page-header">
+    <div class="container">
+      <span class="section__label">Legal</span>
+      <h1>Terms of Use</h1>
+      <p class="page-header__sub">Last updated: {lastUpdated}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container legal-content">
+
+      <div class="legal-notice">
+        <strong>Notice:</strong> These Terms of Use should be reviewed by qualified legal counsel
+        before the website is made publicly available. They are provided as a starting draft only.
+      </div>
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>
+        By accessing or using pechgroup.com (the "Site"), you agree to be bound by these Terms of
+        Use. If you do not agree, please do not use the Site.
+      </p>
+
+      <h2>2. About the Site</h2>
+      <p>
+        This Site is operated by Pech Group, a boutique executive advisory firm. The Site is
+        provided for informational purposes only and does not constitute an offer to provide
+        professional services.
+      </p>
+
+      <h2>3. Permitted Use</h2>
+      <p>You may use the Site to:</p>
+      <ul>
+        <li>Learn about Pech Group's services and capabilities</li>
+        <li>Contact us regarding potential engagements</li>
+        <li>Access publicly available content and insights</li>
+      </ul>
+      <p>You may not use the Site to:</p>
+      <ul>
+        <li>Scrape, harvest, or extract data for commercial purposes</li>
+        <li>Reproduce or redistribute content without permission</li>
+        <li>Engage in any activity that may harm the Site, its users, or Pech Group</li>
+        <li>Misrepresent your identity or affiliation</li>
+      </ul>
+
+      <h2>4. No Professional Advice</h2>
+      <p>
+        Content on this Site is for general informational purposes only. Nothing on this Site
+        constitutes legal, financial, investment, or professional advisory services. Pech Group's
+        advisory services are provided only under a signed engagement agreement.
+      </p>
+
+      <h2>5. AI-Related Content</h2>
+      <p>
+        Descriptions of AI and autonomous agent capabilities on this Site reflect general
+        capabilities of our services. Pech Group makes no guarantees regarding specific outcomes,
+        performance levels, or results from the use of AI agents. All AI-related content is
+        capability-honest and does not include fabricated case studies or client testimonials.
+      </p>
+
+      <h2>6. Intellectual Property</h2>
+      <p>
+        All content on this Site — including text, design, graphics, and code — is owned by
+        Pech Group or its licensors and is protected by applicable intellectual property laws.
+        You may not reproduce, distribute, or create derivative works without prior written consent.
+      </p>
+
+      <h2>7. Disclaimer of Warranties</h2>
+      <p>
+        The Site is provided "as is" without warranties of any kind, express or implied. Pech Group
+        does not warrant that the Site will be uninterrupted, error-free, or free of viruses or
+        other harmful components.
+      </p>
+
+      <h2>8. Limitation of Liability</h2>
+      <p>
+        To the fullest extent permitted by law, Pech Group shall not be liable for any indirect,
+        incidental, special, consequential, or punitive damages arising from your use of or
+        inability to use the Site.
+      </p>
+
+      <h2>9. Governing Law</h2>
+      <p>
+        These Terms are governed by the laws of the State of California, without regard to its
+        conflict of law provisions.
+      </p>
+
+      <h2>10. Changes to These Terms</h2>
+      <p>
+        We may update these Terms at any time. The "Last updated" date reflects the most recent
+        revision. Continued use of the Site after changes constitutes acceptance.
+      </p>
+
+      <h2>11. Contact</h2>
+      <p>
+        Questions about these Terms? Contact us at
+        <a href="mailto:pech@pechgroup.com">pech@pechgroup.com</a>.
+      </p>
+
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-header {
+    background: var(--navy);
+    padding: 6rem 0 4rem;
+  }
+  .page-header h1 { color: var(--white); margin: 0.5rem 0 0.5rem; }
+  .page-header__sub { color: rgba(255,255,255,0.4); font-size: 0.9rem; }
+
+  .legal-content { max-width: 760px; }
+  .legal-notice {
+    background: rgba(202,173,135,0.08);
+    border: 1px solid rgba(202,173,135,0.25);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--slate);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+  }
+  .legal-content h2 {
+    font-size: 1.3rem;
+    margin: 2.5rem 0 0.75rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(1,8,45,0.07);
+  }
+  .legal-content h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+  .legal-content p { margin-bottom: 1rem; font-size: 0.95rem; line-height: 1.8; }
+  .legal-content ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .legal-content ul li {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--slate);
+    margin-bottom: 0.35rem;
+  }
+  .legal-content a { color: var(--gold-dark); text-decoration: underline; }
+</style>

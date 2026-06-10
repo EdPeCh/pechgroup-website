@@ -1,0 +1,197 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const services = [
+  {
+    id: 'fractional',
+    label: '01',
+    title: 'Fractional Executive Leadership',
+    tagline: 'The executive your company needs — on the terms that make sense.',
+    body: [
+      'Building a high-growth company doesn\'t always mean carrying a full executive team on payroll. We provide fractional CEO, President, and Managing Director engagements that give growth-stage and mid-market companies access to seasoned, boardroom-ready leadership without the cost or commitment of a full-time hire.',
+      'Our principals have held executive roles at Fortune-500-scale multinational operators. We embed directly into your organization — attending leadership meetings, managing cross-functional teams, running board-level reporting, and driving the strategic and operational decisions that move the needle.',
+      'Engagements run on monthly retainers with milestone-based performance components. Scope is defined collaboratively: whether you need a CEO to lead a turnaround, a Managing Director to open a new market, or a transitional President while you run a search, we structure the engagement around your actual need.',
+    ],
+    scope: ['Strategic planning & OKR/KPI systems', 'Board-level governance and reporting', 'Operational turnaround and performance improvement', 'M&A preparation, integration oversight', 'Leadership team design and hiring', 'Investor and stakeholder management'],
+  },
+  {
+    id: 'nearshoring',
+    label: '02',
+    title: 'US–Mexico Trade & Nearshoring Strategy',
+    tagline: 'Navigate the US–Mexico corridor with executives who have lived it.',
+    body: [
+      'Nearshoring to Mexico is no longer a theoretical option — it\'s a strategic imperative for companies reassessing their supply chains, labor costs, and proximity to the US market. But executing a nearshoring strategy successfully requires more than a consultant with a framework. It requires operators who understand the regulatory, cultural, and commercial realities on both sides of the border.',
+      'With over 12 years of senior leadership in US–Mexico cross-border operations, we advise companies at every stage of their nearshoring journey: from initial market assessment and site selection through binational organizational design, vendor and partner landscape mapping, and operational standup.',
+      'We provide strategy and advisory services only. We do not offer logistics, freight, customs brokerage, warehousing, or fulfillment services of any kind.',
+    ],
+    scope: ['Market entry and feasibility analysis', 'Region and site selection advisory', 'Binational org design and talent strategy', 'Regulatory and trade compliance framework', 'Vendor and partner landscape mapping', 'Cross-border operating model design'],
+  },
+  {
+    id: 'startup',
+    label: '03',
+    title: 'Startup & Venture Advisory',
+    tagline: 'Build the operating system your startup needs to scale.',
+    body: [
+      'Early-stage companies move fast — but the ones that scale sustainably are those that build execution discipline early. We work with founders and early-stage leadership teams to install the operating frameworks that turn vision into traction: clear go-to-market strategy, org design that doesn\'t break at Series B, and the cadence systems (OKRs, KPIs, leadership rhythms) that keep a growing team aligned.',
+      'Our advisory draws directly from senior leadership experience at global-scale operators. We know what good looks like at scale — and we help founders build toward it without prematurely over-engineering or under-building.',
+      'We also support founders preparing for fundraising: narrative sharpening, financial model review, investor readiness, and diligence preparation. Not as bankers or lawyers — as operating advisors who have been in the room.',
+    ],
+    scope: ['Go-to-market strategy and channel design', 'Org design for growth-stage companies', 'OKR and KPI system design', 'Fundraising readiness and investor narrative', 'Leadership team coaching and development', 'Operating cadence and execution infrastructure'],
+  },
+  {
+    id: 'ecommerce',
+    label: '04',
+    title: 'E-commerce & Cross-Border Commerce Strategy',
+    tagline: 'Grow your brand across borders — strategically.',
+    body: [
+      'Selling into or out of Mexico and LATAM requires more than translating your website. It requires a deliberate market expansion strategy, an operating model built for cross-border complexity, and channel decisions grounded in how consumers actually shop in each market.',
+      'We advise brands and operators on the strategic dimensions of cross-border commerce: market entry sequencing, channel strategy (marketplace vs. DTC vs. wholesale), operating model design for binational teams, and the commercial decisions that determine whether an expansion generates margin or destroys it.',
+      'Our advisory is strictly strategic. We do not provide fulfillment, logistics, customs brokerage, or warehousing services.',
+    ],
+    scope: ['Market entry and expansion sequencing', 'Channel strategy (marketplace, DTC, B2B)', 'Cross-border operating model design', 'Pricing and margin strategy for new markets', 'Commercial partnerships and distributor strategy', 'Organizational design for multinational commerce'],
+  },
+  {
+    id: 'ai',
+    label: '05',
+    title: 'Technology & AI Ventures',
+    tagline: 'We build with AI — and we can help you do the same.',
+    body: [
+      'We don\'t advise on AI from the sidelines. We actively build and operate AI-native products and run our own firm using autonomous agents. That hands-on operating experience — being customer zero for the tools we build — is what separates our technology practice from conventional consulting.',
+      'Our Technology & AI Ventures practice supports executives and operating companies navigating the AI inflection: from assessing where autonomous agents can generate real leverage in your workflows, to venture-building with AI-native methods, to evaluating and integrating AI tools at the executive level.',
+      'This practice is also the foundation of PECH Labs — our applied-AI venture studio — where we design, deploy, and operate AI Agents as a Service for clients who want executive-grade automation without building it themselves.',
+    ],
+    scope: ['AI readiness assessment for operating companies', 'Autonomous agent workflow design', 'AI-native product strategy and venture-building', 'Executive AI literacy and adoption', 'Technology due diligence for investors', 'AI Agents as a Service (via PECH Labs)'],
+  },
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="Pech Group offers five integrated advisory practices: fractional executive leadership, US–Mexico nearshoring strategy, startup advisory, cross-border commerce, and applied AI ventures."
+>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <span class="section__label">Our Practices</span>
+      <h1>Advisory built for<br/><span style="color:var(--gold)">the real work.</span></h1>
+      <p class="page-header__sub">
+        Five integrated practices. Deep cross-border expertise. Executive-level
+        engagement — not slide decks.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services -->
+  {services.map((s, i) => (
+    <section
+      class={`service-section section ${i % 2 !== 0 ? 'section--off' : ''}`}
+      id={s.id}
+    >
+      <div class="container service-section__inner">
+        <div class="service-section__meta">
+          <span class="service-num">{s.label}</span>
+          <div class="gold-line"></div>
+          <span class="section__label">{s.tagline}</span>
+          <h2>{s.title}</h2>
+          <ul class="scope-list">
+            {s.scope.map(item => (
+              <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <a href="/contact" class="btn btn--primary" style="margin-top:2rem;">Discuss This Practice</a>
+        </div>
+        <div class="service-section__body">
+          {s.body.map(para => <p>{para}</p>)}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- CTA -->
+  <section class="section" style="background: var(--navy);">
+    <div class="container" style="text-align:center; max-width: 640px;">
+      <span class="section__label" style="color:var(--gold)">Ready to engage?</span>
+      <h2 style="color:var(--white); margin-bottom:1rem;">Let's talk about your situation.</h2>
+      <p style="color:rgba(255,255,255,0.6); margin-bottom:2rem;">
+        We work with a select number of clients at a time. If there's a potential
+        fit, we'd rather have a direct conversation than an intake form.
+      </p>
+      <a href="/contact" class="btn btn--primary">Start the Conversation</a>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .page-header {
+    background: var(--navy);
+    padding: 7rem 0 5rem;
+  }
+  .page-header h1 { color: var(--white); margin: 0.5rem 0 1.5rem; }
+  .page-header__sub {
+    font-size: 1.15rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 52ch;
+  }
+
+  .service-section__inner {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .service-num {
+    font-family: var(--font-head);
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--gold);
+    opacity: 0.2;
+    line-height: 1;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  .service-section__meta h2 { margin: 0.5rem 0 1.5rem; font-size: 1.6rem; }
+
+  .scope-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+  .scope-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  .scope-list svg {
+    width: 16px; height: 16px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .service-section__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-top: 1rem;
+  }
+  .service-section__body p { font-size: 1rem; line-height: 1.8; }
+
+  @media (max-width: 900px) {
+    .service-section__inner { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>

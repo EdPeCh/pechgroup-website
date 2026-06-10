@@ -1,0 +1,128 @@
+---
+const yr = new Date().getFullYear();
+---
+
+<footer class="ftr bg-darker">
+  <div class="wrap ftr__grid">
+
+    <div class="ftr__brand">
+      <div class="ftr__logo">
+        <svg viewBox="0 0 60 54" aria-hidden="true">
+          <polygon points="30,2 58,18 46,52 14,52 2,18"/>
+          <line x1="2"  y1="18" x2="58" y2="18"/>
+          <line x1="30" y1="2"  x2="14" y2="52"/>
+          <line x1="30" y1="2"  x2="46" y2="52"/>
+          <line x1="14" y1="52" x2="30" y2="18"/>
+          <line x1="46" y1="52" x2="30" y2="18"/>
+        </svg>
+        <div>
+          <span class="ftr__pech">PECH</span>
+          <span class="ftr__tagline">Divergent Strategies</span>
+        </div>
+      </div>
+      <p>Boutique executive advisory firm bridging the US and Mexico. Fractional leadership, strategic advisory, and applied AI ventures.</p>
+      <a href="mailto:pech@pechgroup.com" class="ftr__email">pech@pechgroup.com</a>
+    </div>
+
+    <div class="ftr__col">
+      <p class="ftr__heading">Services</p>
+      <a href="/services#fractional">Fractional Leadership</a>
+      <a href="/services#nearshoring">US–Mexico Nearshoring</a>
+      <a href="/services#startup">Startup Advisory</a>
+      <a href="/services#ecommerce">E-commerce Strategy</a>
+      <a href="/services#ai">Technology & AI</a>
+    </div>
+
+    <div class="ftr__col">
+      <p class="ftr__heading">Company</p>
+      <a href="/about">About Us</a>
+      <a href="/innovation">PECH Labs</a>
+      <a href="/insights">Insights</a>
+      <a href="/contact">Contact</a>
+    </div>
+
+    <div class="ftr__col">
+      <p class="ftr__heading">Where We Operate</p>
+      <span>San Francisco Bay Area, CA</span>
+      <span>Texas, USA</span>
+      <span>Mexico</span>
+    </div>
+
+  </div>
+
+  <div class="wrap ftr__bottom">
+    <p class="fn">&copy; {yr} Pech Group. All Rights Reserved.</p>
+    <div class="ftr__legal">
+      <a href="/privacy" class="fn">Privacy Policy</a>
+      <a href="/terms"   class="fn">Terms of Use</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+.ftr { padding:4rem 0 2rem; border-top:1px solid rgba(90,191,181,0.1); }
+
+.ftr__grid {
+  display:grid;
+  grid-template-columns:1.8fr 1fr 1fr 1fr;
+  gap:3rem;
+  padding-bottom:3rem;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+/* Brand col */
+.ftr__logo { display:flex; align-items:center; gap:0.65rem; margin-bottom:1rem; }
+.ftr__logo svg {
+  width:26px; height:26px; flex-shrink:0;
+  stroke:var(--teal); fill:none;
+  stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
+}
+.ftr__pech {
+  display:block;
+  font-family:var(--font-h); font-size:1rem; font-weight:700;
+  letter-spacing:0.18em; color:var(--white);
+}
+.ftr__tagline {
+  display:block;
+  font-family:var(--font-h); font-size:0.58rem; font-weight:300;
+  letter-spacing:0.18em; text-transform:uppercase; color:var(--teal);
+  margin-top:2px;
+}
+.ftr__brand p { font-size:var(--fn); color:rgba(255,255,255,0.4); margin-top:0; max-width:none; }
+.ftr__email {
+  display:inline-block; margin-top:1rem;
+  font-size:var(--fn); color:var(--teal);
+  transition:opacity var(--ease);
+}
+.ftr__email:hover { opacity:0.7; }
+
+/* Link cols */
+.ftr__col { display:flex; flex-direction:column; gap:0.6rem; }
+.ftr__heading {
+  font-family:var(--font-h); font-size:var(--fn);
+  font-weight:400; letter-spacing:0.18em; text-transform:uppercase;
+  color:var(--teal); margin-bottom:0.25rem;
+}
+.ftr__col a, .ftr__col span {
+  font-size:var(--fn); color:rgba(255,255,255,0.45);
+}
+.ftr__col a:hover { color:var(--teal); }
+
+/* Bottom bar */
+.ftr__bottom {
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:1.5rem; flex-wrap:wrap; gap:1rem;
+}
+.ftr__bottom .fn { color:rgba(255,255,255,0.25); max-width:none; }
+.ftr__legal { display:flex; gap:1.5rem; }
+.ftr__legal a { color:rgba(255,255,255,0.25); }
+.ftr__legal a:hover { color:var(--teal); }
+
+@media(max-width:900px) {
+  .ftr__grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:520px) {
+  .ftr__grid { grid-template-columns:1fr; gap:2rem; }
+  .ftr__bottom { flex-direction:column; text-align:center; }
+}
+</style>

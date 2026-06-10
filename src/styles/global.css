@@ -1,0 +1,237 @@
+/* ============================================================
+   PECH GROUP — Design System
+
+   TYPOGRAPHY SCALE (3 sizes + footnote):
+     T1 — clamp(2rem, 4vw, 3.25rem)  — headlines
+     T2 — clamp(1.1rem, 2vw, 1.35rem) — subheadings / card titles
+     T3 — 0.9375rem (15px)            — body text
+     FN — 0.75rem                     — footnotes / labels / disclaimers
+
+   COLOR RULES:
+     On dark bg  → text: white / rgba(255,255,255,0.6)  accent: #5ABFB5
+     On light bg → text: #1A1A1A / #555555              accent: #3D9E95
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+/* Fitiya */
+@font-face { font-family:'Fitiya'; src:url('/fonts/Fitiya-Light.otf') format('opentype'); font-weight:300; font-style:normal; font-display:swap; }
+@font-face { font-family:'Fitiya'; src:url('/fonts/Fitiya-Regular.otf') format('opentype'); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:'Fitiya'; src:url('/fonts/Fitiya-Bold.otf') format('opentype'); font-weight:700; font-style:normal; font-display:swap; }
+
+/* ---- Reset ---- */
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+:root {
+  --black:     #0D0D0D;
+  --dark:      #1A1A1A;
+  --dark-2:    #252525;
+  --dark-3:    #303030;
+  --teal:      #5ABFB5;
+  --teal-dim:  #3D9E95;
+  --white:     #FFFFFF;
+  --off-white: #F4F4F4;
+  --gray-1:    #E0E0E0;   /* borders on light */
+  --gray-2:    #888888;   /* body on light */
+  --gray-3:    #555555;   /* strong body on light */
+
+  --font-h:    'Fitiya', 'Inter', sans-serif;
+  --font-b:    'Inter', sans-serif;
+
+  --t1: clamp(2rem, 4vw, 3.25rem);
+  --t2: clamp(1.1rem, 2vw, 1.35rem);
+  --t3: 0.9375rem;
+  --fn: 0.75rem;
+
+  --gap:    2rem;
+  --pad:    clamp(3rem, 8vw, 6rem);
+  --mw:     1160px;
+  --radius: 6px;
+  --ease:   0.22s ease;
+}
+
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-b); font-size:var(--t3); line-height:1.7; background:var(--white); color:var(--gray-3); -webkit-font-smoothing:antialiased; }
+a { text-decoration:none; color:inherit; }
+img { display:block; max-width:100%; }
+p { max-width:64ch; }
+
+/* ---- Utility ---- */
+.wrap { max-width:var(--mw); margin:0 auto; padding:0 1.5rem; }
+.sec  { padding:var(--pad) 0; }
+
+/* Backgrounds */
+.bg-dark   { background:var(--dark); }
+.bg-darker { background:var(--black); }
+.bg-light  { background:var(--off-white); }
+.bg-white  { background:var(--white); }
+
+/* ---- Typography on DARK bg ---- */
+.bg-dark  h1,.bg-dark  h2,.bg-dark  h3,.bg-dark  h4,
+.bg-darker h1,.bg-darker h2,.bg-darker h3,.bg-darker h4 { color:var(--white); }
+.bg-dark  p,.bg-darker p { color:rgba(255,255,255,0.58); }
+.bg-dark  .lbl,.bg-darker .lbl { color:var(--teal); }
+
+/* ---- Typography on LIGHT bg ---- */
+.bg-light h1,.bg-light h2,.bg-light h3,.bg-light h4,
+.bg-white h1,.bg-white h2,.bg-white h3,.bg-white h4 { color:var(--dark); }
+.bg-light p,.bg-white p { color:var(--gray-3); }
+.bg-light .lbl,.bg-white .lbl { color:var(--teal-dim); }
+
+/* Heading sizes */
+h1 { font-family:var(--font-h); font-size:var(--t1); font-weight:700; line-height:1.1; letter-spacing:-0.01em; }
+h2 { font-family:var(--font-h); font-size:var(--t2); font-weight:700; line-height:1.2; }
+h3 { font-family:var(--font-h); font-size:var(--t3); font-weight:700; line-height:1.3; }
+p  { font-size:var(--t3); line-height:1.75; }
+
+/* Label / eyebrow */
+.lbl {
+  display:block;
+  font-family:var(--font-h);
+  font-size:var(--fn);
+  font-weight:400;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-bottom:0.75rem;
+}
+
+/* Footnote */
+.fn {
+  font-size:var(--fn);
+  line-height:1.6;
+  color:var(--gray-2);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  padding:0.7rem 1.6rem;
+  font-family:var(--font-h);
+  font-size:var(--fn);
+  font-weight:400;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  border-radius:var(--radius);
+  border:1px solid transparent;
+  cursor:pointer;
+  transition:all var(--ease);
+  white-space:nowrap;
+}
+.btn-teal {
+  background:var(--teal);
+  color:var(--black);
+  border-color:var(--teal);
+}
+.btn-teal:hover {
+  background:var(--teal-dim);
+  border-color:var(--teal-dim);
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(90,191,181,0.28);
+}
+.btn-ghost {
+  background:transparent;
+  color:var(--white);
+  border-color:rgba(255,255,255,0.25);
+}
+.btn-ghost:hover {
+  border-color:var(--teal);
+  color:var(--teal);
+  transform:translateY(-1px);
+}
+.btn-ghost-dark {
+  background:transparent;
+  color:var(--dark);
+  border-color:rgba(0,0,0,0.2);
+}
+.btn-ghost-dark:hover {
+  border-color:var(--teal-dim);
+  color:var(--teal-dim);
+}
+
+/* ---- Grid ---- */
+.cols-2 { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:var(--gap); }
+.cols-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:var(--gap); }
+.cols-4 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:var(--gap); }
+
+/* ---- Divider ---- */
+.teal-bar { width:36px; height:2px; background:var(--teal); border-radius:1px; margin-bottom:1.25rem; }
+
+/* ---- Cards ---- */
+/* Dark card (on dark bg) */
+.card-dark {
+  background:var(--dark-2);
+  border:1px solid rgba(90,191,181,0.1);
+  border-radius:var(--radius);
+  padding:1.75rem;
+  transition:border-color var(--ease), transform var(--ease);
+}
+.card-dark:hover { border-color:rgba(90,191,181,0.35); transform:translateY(-3px); }
+.card-dark h3 { color:var(--white); margin-bottom:0.5rem; }
+.card-dark p  { color:rgba(255,255,255,0.55); }
+
+/* Light card (on light bg) */
+.card-light {
+  background:var(--white);
+  border:1px solid var(--gray-1);
+  border-radius:var(--radius);
+  padding:1.75rem;
+  transition:border-color var(--ease), transform var(--ease);
+}
+.card-light:hover { border-color:var(--teal); transform:translateY(-3px); }
+.card-light h3 { color:var(--dark); margin-bottom:0.5rem; }
+.card-light p  { color:var(--gray-3); }
+
+/* ---- Icon chip ---- */
+.icon-chip {
+  width:40px; height:40px;
+  background:rgba(90,191,181,0.1);
+  border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:1rem;
+  flex-shrink:0;
+}
+.icon-chip svg {
+  width:18px; height:18px;
+  stroke:var(--teal);
+  fill:none;
+  stroke-width:1.75;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* ---- Diamond SVG logo mark ---- */
+.diamond-mark svg {
+  width:32px; height:32px;
+  stroke:var(--teal);
+  fill:none;
+  stroke-width:1.5;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* ---- WhatsApp FAB ---- */
+.wa-fab {
+  position:fixed; bottom:1.75rem; right:1.75rem; z-index:900;
+  width:50px; height:50px;
+  background:#25D366; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 4px 16px rgba(37,211,102,0.4);
+  transition:transform var(--ease);
+}
+.wa-fab:hover { transform:scale(1.08); }
+.wa-fab svg { width:26px; height:26px; fill:white; }
+
+/* ---- Skip link ---- */
+.skip { position:absolute; top:-50px; left:1rem; background:var(--teal); color:var(--black); padding:0.5rem 1rem; border-radius:var(--radius); font-size:var(--fn); z-index:9999; transition:top 0.2s; }
+.skip:focus { top:0.75rem; }
+
+/* ---- Focus ---- */
+:focus-visible { outline:2px solid var(--teal); outline-offset:3px; border-radius:3px; }
+
+/* ---- Responsive ---- */
+@media(max-width:768px) {
+  :root { --pad:3rem; --gap:1.5rem; }
+  .wrap { padding:0 1.25rem; }
+}

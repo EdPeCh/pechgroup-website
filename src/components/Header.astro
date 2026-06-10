@@ -1,0 +1,154 @@
+---
+const nav = [
+  { href:'/services', label:'Services' },
+  { href:'/about',    label:'About' },
+  { href:'/innovation', label:'PECH Labs' },
+  { href:'/insights', label:'Insights' },
+];
+const p = Astro.url.pathname;
+---
+
+<header class="hdr" id="hdr">
+  <div class="wrap hdr__inner">
+
+    <a href="/" class="hdr__logo" aria-label="Pech Group — Home">
+      <svg viewBox="0 0 60 54" aria-hidden="true" class="hdr__diamond">
+        <polygon points="30,2 58,18 46,52 14,52 2,18" />
+        <line x1="2"  y1="18" x2="58" y2="18"/>
+        <line x1="30" y1="2"  x2="14" y2="52"/>
+        <line x1="30" y1="2"  x2="46" y2="52"/>
+        <line x1="14" y1="52" x2="30" y2="18"/>
+        <line x1="46" y1="52" x2="30" y2="18"/>
+      </svg>
+      <div class="hdr__wordmark">
+        <span class="hdr__pech">PECH</span>
+        <span class="hdr__sub">Divergent Strategies</span>
+      </div>
+    </a>
+
+    <nav class="hdr__nav" aria-label="Main navigation">
+      {nav.map(l => (
+        <a href={l.href} class={`hdr__link ${p.startsWith(l.href) ? 'hdr__link--on' : ''}`}>
+          {l.label}
+        </a>
+      ))}
+      <a href="/contact" class="btn btn-teal">Get in Touch</a>
+    </nav>
+
+    <button class="hdr__burger" aria-label="Open menu" aria-expanded="false" aria-controls="mob-nav">
+      <span/><span/><span/>
+    </button>
+  </div>
+
+  <div class="mob-nav" id="mob-nav" hidden>
+    {nav.map(l => <a href={l.href} class="mob-nav__link">{l.label}</a>)}
+    <a href="/contact" class="btn btn-teal mob-nav__cta">Get in Touch</a>
+  </div>
+</header>
+
+<style>
+.hdr {
+  position:sticky; top:0; z-index:100;
+  background:rgba(13,13,13,0.97);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(90,191,181,0.1);
+}
+.hdr--shadow { box-shadow:0 2px 20px rgba(0,0,0,0.5); }
+
+.hdr__inner {
+  display:flex; align-items:center; justify-content:space-between;
+  height:64px;
+}
+
+/* Logo */
+.hdr__logo {
+  display:flex; align-items:center; gap:0.75rem;
+  text-decoration:none; flex-shrink:0;
+}
+.hdr__diamond {
+  width:28px; height:28px; flex-shrink:0;
+  stroke:var(--teal); fill:none;
+  stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round;
+}
+.hdr__wordmark { display:flex; flex-direction:column; line-height:1; }
+.hdr__pech {
+  font-family:var(--font-h);
+  font-size:1.15rem; font-weight:700;
+  letter-spacing:0.18em;
+  color:var(--white);
+}
+.hdr__sub {
+  font-family:var(--font-h);
+  font-size:0.58rem; font-weight:300;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--teal);
+  margin-top:2px;
+}
+
+/* Nav links */
+.hdr__nav { display:flex; align-items:center; gap:1.75rem; }
+.hdr__link {
+  font-family:var(--font-h);
+  font-size:0.7rem; font-weight:400;
+  letter-spacing:0.14em; text-transform:uppercase;
+  color:rgba(255,255,255,0.55);
+  transition:color var(--ease); position:relative;
+}
+.hdr__link::after {
+  content:''; position:absolute; bottom:-4px; left:0;
+  width:0; height:1px; background:var(--teal);
+  transition:width var(--ease);
+}
+.hdr__link:hover, .hdr__link--on { color:var(--white); }
+.hdr__link:hover::after, .hdr__link--on::after { width:100%; }
+
+/* Burger */
+.hdr__burger {
+  display:none; flex-direction:column; gap:5px;
+  background:none; border:none; cursor:pointer; padding:6px;
+}
+.hdr__burger span {
+  display:block; width:22px; height:1.5px;
+  background:var(--white); border-radius:1px; transition:all 0.3s;
+}
+
+/* Mobile nav */
+.mob-nav {
+  display:flex; flex-direction:column;
+  background:var(--black);
+  border-top:1px solid rgba(90,191,181,0.08);
+  padding:1.25rem 1.5rem 1.75rem;
+}
+.mob-nav[hidden] { display:none; }
+.mob-nav__link {
+  font-family:var(--font-h);
+  font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase;
+  color:rgba(255,255,255,0.65);
+  padding:0.8rem 0;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  transition:color var(--ease);
+}
+.mob-nav__link:hover { color:var(--teal); }
+.mob-nav__cta { margin-top:1.25rem; justify-content:center; }
+
+@media(max-width:860px) {
+  .hdr__nav { display:none; }
+  .hdr__burger { display:flex; }
+}
+</style>
+
+<script>
+const hdr    = document.getElementById('hdr');
+const burger = document.querySelector('.hdr__burger');
+const mob    = document.getElementById('mob-nav');
+
+window.addEventListener('scroll', () => hdr?.classList.toggle('hdr--shadow', scrollY > 10));
+
+burger?.addEventListener('click', () => {
+  const open = mob?.hasAttribute('hidden') ?? true;
+  if (open) { mob?.removeAttribute('hidden'); }
+  else       { mob?.setAttribute('hidden',''); }
+  burger.setAttribute('aria-expanded', String(open));
+});
+</script>
