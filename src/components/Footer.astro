@@ -1,4 +1,10 @@
 ---
+import { ui, ventures, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = ui[lang].footer;
+const home = lang === 'en' ? '/' : '/es/';
 const yr = new Date().getFullYear();
 ---
 
@@ -20,41 +26,34 @@ const yr = new Date().getFullYear();
           <span class="ftr__tagline">Divergent Strategies</span>
         </div>
       </div>
-      <p>Boutique executive advisory firm bridging the US and Mexico. Fractional leadership, strategic advisory, and applied AI ventures.</p>
+      <p>{t.blurb}</p>
       <a href="mailto:pech@pechgroup.com" class="ftr__email">pech@pechgroup.com</a>
     </div>
 
     <div class="ftr__col">
-      <p class="ftr__heading">Services</p>
-      <a href="/services#fractional">Fractional Leadership</a>
-      <a href="/services#nearshoring">US–Mexico Nearshoring</a>
-      <a href="/services#startup">Startup Advisory</a>
-      <a href="/services#ecommerce">E-commerce Strategy</a>
-      <a href="/services#ai">Technology & AI</a>
+      <h2 class="ftr__heading">{t.ventures}</h2>
+      {ventures.map(v => <a href={`${home}#ventures`}>{v.name}</a>)}
     </div>
 
     <div class="ftr__col">
-      <p class="ftr__heading">Company</p>
-      <a href="/about">About Us</a>
-      <a href="/innovation">PECH Labs</a>
-      <a href="/insights">Insights</a>
-      <a href="/contact">Contact</a>
+      <h2 class="ftr__heading">{t.company}</h2>
+      {t.companyLinks.map(l => (
+        <a href={l.href} hreflang={'hreflang' in l ? l.hreflang : undefined}>{l.label}</a>
+      ))}
     </div>
 
     <div class="ftr__col">
-      <p class="ftr__heading">Where We Operate</p>
-      <span>San Francisco Bay Area, CA</span>
-      <span>Texas, USA</span>
-      <span>Mexico</span>
+      <h2 class="ftr__heading">{t.where}</h2>
+      {t.places.map(pl => <span>{pl}</span>)}
     </div>
 
   </div>
 
   <div class="wrap ftr__bottom">
-    <p class="fn">&copy; {yr} Pech Group. All Rights Reserved.</p>
+    <p class="fn">&copy; {yr} PECH Group LLC. {t.rights}</p>
     <div class="ftr__legal">
-      <a href="/privacy" class="fn">Privacy Policy</a>
-      <a href="/terms"   class="fn">Terms of Use</a>
+      <a href="/privacy" hreflang={lang === 'es' ? 'en' : undefined} class="fn">{t.privacy}</a>
+      <a href="/terms" hreflang={lang === 'es' ? 'en' : undefined} class="fn">{t.terms}</a>
     </div>
   </div>
 </footer>
@@ -88,24 +87,26 @@ const yr = new Date().getFullYear();
   letter-spacing:0.18em; text-transform:uppercase; color:var(--teal);
   margin-top:2px;
 }
-.ftr__brand p { font-size:var(--fn); color:rgba(255,255,255,0.4); margin-top:0; max-width:none; }
+.ftr__brand p { font-size:var(--fn); color:rgba(255,255,255,0.65); margin-top:0; max-width:none; }
 .ftr__email {
-  display:inline-block; margin-top:1rem;
+  display:inline-flex; align-items:center; min-height:var(--tap); margin-top:0.5rem;
   font-size:var(--fn); color:var(--teal);
   transition:opacity var(--ease);
 }
 .ftr__email:hover { opacity:0.7; }
 
 /* Link cols */
-.ftr__col { display:flex; flex-direction:column; gap:0.6rem; }
-.ftr__heading {
+.ftr__col { display:flex; flex-direction:column; align-items:flex-start; }
+.ftr .ftr__heading {
   font-family:var(--font-h); font-size:var(--fn);
   font-weight:400; letter-spacing:0.18em; text-transform:uppercase;
   color:var(--teal); margin-bottom:0.25rem;
 }
 .ftr__col a, .ftr__col span {
-  font-size:var(--fn); color:rgba(255,255,255,0.45);
+  font-size:var(--fn); color:rgba(255,255,255,0.65);
 }
+.ftr__col a { display:inline-flex; align-items:center; min-height:var(--tap); }
+.ftr__col span { padding:0.35rem 0; }
 .ftr__col a:hover { color:var(--teal); }
 
 /* Bottom bar */
@@ -113,9 +114,9 @@ const yr = new Date().getFullYear();
   display:flex; align-items:center; justify-content:space-between;
   padding-top:1.5rem; flex-wrap:wrap; gap:1rem;
 }
-.ftr__bottom .fn { color:rgba(255,255,255,0.25); max-width:none; }
-.ftr__legal { display:flex; gap:1.5rem; }
-.ftr__legal a { color:rgba(255,255,255,0.25); }
+.ftr__bottom .fn { color:rgba(255,255,255,0.6); max-width:none; }
+.ftr__legal { display:flex; gap:1.5rem; flex-wrap:wrap; }
+.ftr__legal a { display:inline-flex; align-items:center; min-height:var(--tap); color:rgba(255,255,255,0.6); }
 .ftr__legal a:hover { color:var(--teal); }
 
 @media(max-width:900px) {

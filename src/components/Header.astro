@@ -1,17 +1,22 @@
 ---
-const nav = [
-  { href:'/services', label:'Services' },
-  { href:'/about',    label:'About' },
-  { href:'/innovation', label:'PECH Labs' },
-  { href:'/insights', label:'Insights' },
-];
+import { ui, CONTACT_EMAIL, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  switchHref: string;
+}
+const { lang, switchHref } = Astro.props;
+const t = ui[lang];
+const other: Lang = lang === 'en' ? 'es' : 'en';
 const p = Astro.url.pathname;
+const home = lang === 'en' ? '/' : '/es/';
+const isOn = (href: string) => !href.includes('#') && p.startsWith(href);
 ---
 
 <header class="hdr" id="hdr">
   <div class="wrap hdr__inner">
 
-    <a href="/" class="hdr__logo" aria-label="Pech Group — Home">
+    <a href={home} class="hdr__logo" aria-label={t.homeLabel}>
       <svg viewBox="0 0 60 54" aria-hidden="true" class="hdr__diamond">
         <polygon points="30,2 58,18 46,52 14,52 2,18" />
         <line x1="2"  y1="18" x2="58" y2="18"/>
@@ -22,28 +27,56 @@ const p = Astro.url.pathname;
       </svg>
       <div class="hdr__wordmark">
         <span class="hdr__pech">PECH</span>
-        <span class="hdr__sub">Divergent Strategies</span>
+        <span class="hdr__sub">{t.tagline}</span>
       </div>
     </a>
 
-    <nav class="hdr__nav" aria-label="Main navigation">
-      {nav.map(l => (
-        <a href={l.href} class={`hdr__link ${p.startsWith(l.href) ? 'hdr__link--on' : ''}`}>
+    <nav class="hdr__nav" aria-label={t.navLabel}>
+      {t.nav.map(l => (
+        <a
+          href={l.href}
+          hreflang={'hreflang' in l ? l.hreflang : undefined}
+          class:list={['hdr__link', { 'hdr__link--on': isOn(l.href) }]}
+          aria-current={isOn(l.href) ? 'page' : undefined}
+        >
           {l.label}
         </a>
       ))}
-      <a href="/contact" class="btn btn-teal">Get in Touch</a>
+      <a href={switchHref} class="lang-sw" hreflang={other} lang={other}>
+        {t.langSwitch.otherShort}<span class="sr-only"> — {t.langSwitch.other}</span>
+      </a>
+      <a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-teal">{t.contact}</a>
     </nav>
 
-    <button class="hdr__burger" aria-label="Open menu" aria-expanded="false" aria-controls="mob-nav">
-      <span/><span/><span/>
-    </button>
+    <div class="hdr__mob-actions">
+      <a href={switchHref} class="lang-sw" hreflang={other} lang={other}>
+        {t.langSwitch.otherShort}<span class="sr-only"> — {t.langSwitch.other}</span>
+      </a>
+      <button
+        class="hdr__burger"
+        type="button"
+        aria-label={t.menuOpen}
+        aria-expanded="false"
+        aria-controls="mob-nav"
+        data-open-label={t.menuOpen}
+        data-close-label={t.menuClose}
+      >
+        <span/><span/><span/>
+      </button>
+    </div>
   </div>
 
-  <div class="mob-nav" id="mob-nav" hidden>
-    {nav.map(l => <a href={l.href} class="mob-nav__link">{l.label}</a>)}
-    <a href="/contact" class="btn btn-teal mob-nav__cta">Get in Touch</a>
-  </div>
+  <nav class="mob-nav" id="mob-nav" aria-label={t.navLabel} hidden>
+    {t.nav.map(l => (
+      <a
+        href={l.href}
+        hreflang={'hreflang' in l ? l.hreflang : undefined}
+        class="mob-nav__link"
+        aria-current={isOn(l.href) ? 'page' : undefined}
+      >{l.label}</a>
+    ))}
+    <a href={`mailto:${CONTACT_EMAIL}`} class="btn btn-teal mob-nav__cta">{t.contact}</a>
+  </nav>
 </header>
 
 <style>
@@ -57,12 +90,13 @@ const p = Astro.url.pathname;
 
 .hdr__inner {
   display:flex; align-items:center; justify-content:space-between;
-  height:64px;
+  height:64px; gap:1rem;
 }
 
 /* Logo */
 .hdr__logo {
   display:flex; align-items:center; gap:0.75rem;
+  min-height:var(--tap);
   text-decoration:none; flex-shrink:0;
 }
 .hdr__diamond {
@@ -87,26 +121,40 @@ const p = Astro.url.pathname;
 }
 
 /* Nav links */
-.hdr__nav { display:flex; align-items:center; gap:1.75rem; }
+.hdr__nav { display:flex; align-items:center; gap:1.25rem; }
 .hdr__link {
+  display:inline-flex; align-items:center; min-height:var(--tap);
   font-family:var(--font-h);
   font-size:0.7rem; font-weight:400;
   letter-spacing:0.14em; text-transform:uppercase;
-  color:rgba(255,255,255,0.55);
+  color:rgba(255,255,255,0.7);
   transition:color var(--ease); position:relative;
 }
 .hdr__link::after {
-  content:''; position:absolute; bottom:-4px; left:0;
+  content:''; position:absolute; bottom:8px; left:0;
   width:0; height:1px; background:var(--teal);
   transition:width var(--ease);
 }
 .hdr__link:hover, .hdr__link--on { color:var(--white); }
 .hdr__link:hover::after, .hdr__link--on::after { width:100%; }
 
+/* Language switch */
+.lang-sw {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:var(--tap); min-height:var(--tap);
+  font-family:var(--font-h); font-size:0.7rem; letter-spacing:0.14em;
+  color:var(--teal);
+  border:1px solid rgba(90,191,181,0.4); border-radius:var(--radius);
+  transition:border-color var(--ease), color var(--ease);
+}
+.lang-sw:hover { border-color:var(--teal); color:var(--white); }
+
 /* Burger */
+.hdr__mob-actions { display:none; align-items:center; gap:0.5rem; }
 .hdr__burger {
-  display:none; flex-direction:column; gap:5px;
-  background:none; border:none; cursor:pointer; padding:6px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px;
+  width:var(--tap); height:var(--tap);
+  background:none; border:none; cursor:pointer; padding:0;
 }
 .hdr__burger span {
   display:block; width:22px; height:1.5px;
@@ -122,33 +170,39 @@ const p = Astro.url.pathname;
 }
 .mob-nav[hidden] { display:none; }
 .mob-nav__link {
+  display:flex; align-items:center; min-height:var(--tap);
   font-family:var(--font-h);
   font-size:0.75rem; letter-spacing:0.16em; text-transform:uppercase;
-  color:rgba(255,255,255,0.65);
-  padding:0.8rem 0;
+  color:rgba(255,255,255,0.75);
   border-bottom:1px solid rgba(255,255,255,0.05);
   transition:color var(--ease);
 }
 .mob-nav__link:hover { color:var(--teal); }
-.mob-nav__cta { margin-top:1.25rem; justify-content:center; }
+.mob-nav__cta { margin-top:1.25rem; }
 
-@media(max-width:860px) {
+@media(max-width:1100px) {
   .hdr__nav { display:none; }
-  .hdr__burger { display:flex; }
+  .hdr__mob-actions { display:flex; }
 }
 </style>
 
 <script>
 const hdr    = document.getElementById('hdr');
-const burger = document.querySelector('.hdr__burger');
+const burger = document.querySelector<HTMLButtonElement>('.hdr__burger');
 const mob    = document.getElementById('mob-nav');
 
-window.addEventListener('scroll', () => hdr?.classList.toggle('hdr--shadow', scrollY > 10));
+window.addEventListener('scroll', () => hdr?.classList.toggle('hdr--shadow', scrollY > 10), { passive: true });
 
-burger?.addEventListener('click', () => {
-  const open = mob?.hasAttribute('hidden') ?? true;
-  if (open) { mob?.removeAttribute('hidden'); }
-  else       { mob?.setAttribute('hidden',''); }
+function setOpen(open: boolean) {
+  if (!mob || !burger) return;
+  mob.toggleAttribute('hidden', !open);
   burger.setAttribute('aria-expanded', String(open));
+  burger.setAttribute('aria-label', (open ? burger.dataset.closeLabel : burger.dataset.openLabel) ?? '');
+}
+
+burger?.addEventListener('click', () => setOpen(mob?.hasAttribute('hidden') ?? false));
+mob?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && mob && !mob.hasAttribute('hidden')) { setOpen(false); burger?.focus(); }
 });
 </script>
