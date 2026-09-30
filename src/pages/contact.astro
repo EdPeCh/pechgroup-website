@@ -192,8 +192,9 @@ const isLabs = ref === 'labs';
   .form-field input,
   .form-field select,
   .form-field textarea {
+    min-height: var(--tap);
     padding: 0.75rem 1rem;
-    border: 1.5px solid rgba(1,8,45,0.15);
+    border: 1.5px solid rgba(1,8,45,0.45);
     border-radius: var(--radius);
     font-family: var(--font-body);
     font-size: 0.95rem;
@@ -277,6 +278,9 @@ const isLabs = ref === 'labs';
   }
 
   .contact-email {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
     font-size: 1rem;
     font-weight: 600;
     color: var(--navy);
