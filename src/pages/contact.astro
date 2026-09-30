@@ -2,6 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 const ref = Astro.url.searchParams.get('ref');
 const isLabs = ref === 'labs';
+
+// Mailto fallback until a Formspree form ID exists (see comment on the form).
+const MAILTO_ADDRESS = 'edgar.pereda@pechgroup.com';
+const MAILTO_SUBJECT = 'Website inquiry — pechgroup.com';
 ---
 
 <BaseLayout
@@ -26,12 +30,23 @@ const isLabs = ref === 'labs';
 
       <!-- Form -->
       <div class="contact-form-wrap">
+        <!--
+          Formspree is not configured yet, so the form currently submits via the
+          visitor's email client (mailto fallback, see the script at the bottom).
+          To re-enable Formspree once a form ID exists:
+            1. Set action="https://formspree.io/f/<YOUR_FORMSPREE_ID>" and
+               method="POST", and remove enctype="text/plain".
+            2. Delete the data-mailto attribute and the <script> block below.
+            3. Change the button label back to "Send Message".
+        -->
         <form
-          action="https://formspree.io/f/REPLACE_WITH_FORMSPREE_ID"
+          action={`mailto:${MAILTO_ADDRESS}?subject=${encodeURIComponent(MAILTO_SUBJECT)}`}
           method="POST"
+          enctype="text/plain"
           class="contact-form"
           aria-label="Contact form"
-          novalidate
+          data-mailto={MAILTO_ADDRESS}
+          data-subject={MAILTO_SUBJECT}
         >
           {isLabs && <input type="hidden" name="inquiry_type" value="PECH Labs Early Access" />}
 
@@ -95,7 +110,11 @@ const isLabs = ref === 'labs';
             </label>
           </div>
 
-          <button type="submit" class="btn btn--primary form-submit">Send Message</button>
+          <button type="submit" class="btn btn--primary form-submit">Send via Email</button>
+          <p class="form-note">
+            Opens your email client with your message ready to send. You can also write to
+            <a href={`mailto:${MAILTO_ADDRESS}?subject=${encodeURIComponent(MAILTO_SUBJECT)}`}>{MAILTO_ADDRESS}</a>.
+          </p>
         </form>
       </div>
 
@@ -157,6 +176,31 @@ const isLabs = ref === 'labs';
   </section>
 
 </BaseLayout>
+
+<script>
+  // Mailto fallback: builds a readable email from the form fields and opens the
+  // visitor's email client. Remove this block when switching to Formspree.
+  const form = document.querySelector<HTMLFormElement>('form[data-mailto]');
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    const data = new FormData(form);
+    const get = (key: string) => String(data.get(key) ?? '').trim();
+    const topic = get('topic') || get('inquiry_type');
+    const subject = topic ? `${form.dataset.subject} — ${topic}` : form.dataset.subject ?? '';
+    const body = [
+      `Name: ${get('name')}`,
+      `Company: ${get('company')}`,
+      `Email: ${get('email')}`,
+      `Phone / WhatsApp: ${get('phone')}`,
+      `Topic: ${topic}`,
+      '',
+      get('message'),
+    ].join('\n');
+    window.location.href =
+      `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>
 
 <style>
   .page-header {
@@ -239,6 +283,13 @@ const isLabs = ref === 'labs';
   .checkbox-label a { color: var(--gold-dark); text-decoration: underline; }
 
   .form-submit { align-self: flex-start; }
+  .form-note {
+    font-size: 0.8rem;
+    color: var(--slate);
+    margin: -0.75rem 0 0;
+    max-width: none;
+  }
+  .form-note a { color: var(--gold-dark); text-decoration: underline; }
 
   /* Sidebar */
   .contact-sidebar {
