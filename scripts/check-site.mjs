@@ -60,7 +60,8 @@ try {
     const slug = route === '/' ? 'home' : route.replace(/\//g, '_').replace(/^_|_$/g, '');
 
     // ---- Mobile 375px ----
-    const mobile = await browser.newPage({ viewport: { width: 375, height: 812 }, deviceScaleFactor: 2 });
+    const mobileCtx = await browser.newContext({ viewport: { width: 375, height: 812 }, deviceScaleFactor: 2 });
+    const mobile = await mobileCtx.newPage();
     await mobile.goto(BASE + route, { waitUntil: 'networkidle' });
 
     const seo = await mobile.evaluate(() => ({
@@ -118,17 +119,18 @@ try {
       const menuOverflow = await mobile.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
       if (menuOverflow > 0) fail(route, `horizontal scroll with mobile menu open (${menuOverflow}px)`);
     }
-    await mobile.close();
+    await mobileCtx.close();
 
     // ---- Desktop 1280px ----
-    const desktop = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+    const desktopCtx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const desktop = await desktopCtx.newPage();
     await desktop.goto(BASE + route, { waitUntil: 'networkidle' });
     const axeDesktop = await new AxeBuilder({ page: desktop }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
     for (const v of axeDesktop.violations) {
       fail(route, `axe[1280] ${v.id} (${v.impact}): ${v.help} — ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(' | ')}`);
     }
     await desktop.screenshot({ path: `audit/${slug}-1280.png`, fullPage: true });
-    await desktop.close();
+    await desktopCtx.close();
     console.log(`  ✓ audited ${route}`);
   }
   await browser.close();
