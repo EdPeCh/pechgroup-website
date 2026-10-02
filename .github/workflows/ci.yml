@@ -1,0 +1,42 @@
+name: Build & audit
+
+# Verifies the site compiles and passes the SEO / WCAG 2.1 AA / 375px / tap-target
+# audit in scripts/check-site.mjs. Does not deploy anything.
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Install audit tooling (not saved to package.json)
+        run: |
+          npm i --no-save playwright@1 @axe-core/playwright@4
+          npx playwright install --with-deps chromium
+
+      - name: Audit built site
+        run: node scripts/check-site.mjs
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-screenshots
+          path: audit/
+          if-no-files-found: ignore
