@@ -1,5 +1,5 @@
 ---
-import { ui, ventures, mailto, CONTACT_EMAIL, type Lang } from '../i18n/ui';
+import { ui, ventures, mailto, CONTACT_EMAIL, LINKEDIN_URL, SHOW_TODOS, type Lang } from '../i18n/ui';
 
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
@@ -71,7 +71,7 @@ const speakingHref = mailto(t.speaking.subject);
           <img src="/images/ed-pereda.webp" alt={t.bio.photoAlt} width="480" height="600"
                loading="lazy" decoding="async" /> */}
       <div class="bio__monogram" aria-hidden="true">EP</div>
-      <p><span class="todo">{t.bio.todoPhoto}</span></p>
+      {SHOW_TODOS && <p><span class="todo">{t.bio.todoPhoto}</span></p>}
     </div>
     <div class="bio__text">
       <p class="lbl">{t.bio.lbl}</p>
@@ -82,8 +82,12 @@ const speakingHref = mailto(t.speaking.subject);
       </ul>
       <p>{t.bio.p1}</p>
       <p>{t.bio.p2}</p>
-      <p><span class="todo">{t.bio.todoBackground}</span></p>
-      <p><span class="todo">{t.bio.todoLinkedin}</span></p>
+      {SHOW_TODOS && <p><span class="todo">{t.bio.todoBackground}</span></p>}
+      <p>
+        <a href={LINKEDIN_URL} class="bio__link" target="_blank" rel="noopener">
+          {t.bio.linkedin} <span aria-hidden="true">↗</span>
+        </a>
+      </p>
     </div>
   </div>
 </section>
@@ -96,14 +100,14 @@ const speakingHref = mailto(t.speaking.subject);
         <p class="lbl">{t.investors.lbl}</p>
         <h2 id="investors-title">{t.investors.h2}</h2>
         <p>{t.investors.p}</p>
-        <p><span class="todo">{t.investors.todo}</span></p>
+        {SHOW_TODOS && <p><span class="todo">{t.investors.todo}</span></p>}
         <a href={investorsHref} class="btn btn-teal">{t.investors.cta}</a>
       </section>
       <section id="speaking" class="cta-card" aria-labelledby="speaking-title">
         <p class="lbl">{t.speaking.lbl}</p>
         <h2 id="speaking-title">{t.speaking.h2}</h2>
         <p>{t.speaking.p}</p>
-        <p><span class="todo">{t.speaking.todo}</span></p>
+        {SHOW_TODOS && <p><span class="todo">{t.speaking.todo}</span></p>}
         <a href={speakingHref} class="btn btn-teal">{t.speaking.cta}</a>
       </section>
     </div>
@@ -200,6 +204,13 @@ const speakingHref = mailto(t.speaking.subject);
 .bio__text { display:flex; flex-direction:column; gap:1rem; }
 .bio__text .teal-bar { margin-bottom:0; }
 .bio__text h2 { font-size:var(--t1); }
+.bio__link {
+  display:inline-flex; align-items:center; gap:0.35rem; min-height:var(--tap);
+  font-family:var(--font-h); font-size:var(--fn);
+  letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-ink);
+  text-decoration:underline; text-underline-offset:3px;
+}
+.bio__link:hover { color:var(--dark); }
 .bio__roles {
   list-style:none; display:flex; flex-direction:column; gap:0.25rem;
   font-family:var(--font-h); font-size:var(--fn);

@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { ui, homePath, type Lang } from '../i18n/ui';
+import { ui, homePath, LINKEDIN_URL, type Lang } from '../i18n/ui';
 
 interface Props {
   title: string;
@@ -56,7 +56,7 @@ const jsonLd = {
       jobTitle: 'Chairman & Lead Investor',
       worksFor: { '@id': 'https://pechgroup.com/#org' },
       knowsLanguage: ['en', 'es'],
-      // [TODO: Ed — add "sameAs": ["<LinkedIn URL>"] once confirmed]
+      sameAs: [LINKEDIN_URL],
     },
   ],
 };

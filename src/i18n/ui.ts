@@ -8,6 +8,11 @@
 export type Lang = 'en' | 'es';
 
 export const CONTACT_EMAIL = 'edgar.pereda@pechgroup.com';
+export const LINKEDIN_URL = 'https://www.linkedin.com/in/edgar-pereda';
+
+// Set to true to render the yellow "[TODO: Ed]" markers on the page while
+// content is pending. false = hidden in production.
+export const SHOW_TODOS = false;
 
 export const mailto = (subject: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`;
@@ -90,7 +95,7 @@ export const ui = {
         todoBackground:
           '[TODO: Ed — professional background: prior roles, years of experience, education]',
         todoPhoto: '[TODO: Ed — headshot]',
-        todoLinkedin: '[TODO: Ed — LinkedIn URL]',
+        linkedin: 'Connect on LinkedIn',
         photoAlt: 'Ed Pereda',
       },
       investors: {
@@ -188,7 +193,7 @@ export const ui = {
         todoBackground:
           '[TODO: Ed — trayectoria profesional: puestos anteriores, años de experiencia, formación]',
         todoPhoto: '[TODO: Ed — fotografía]',
-        todoLinkedin: '[TODO: Ed — URL de LinkedIn]',
+        linkedin: 'Conectar en LinkedIn',
         photoAlt: 'Ed Pereda',
       },
       investors: {
