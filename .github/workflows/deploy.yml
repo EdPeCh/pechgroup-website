@@ -1,9 +1,10 @@
 name: Deploy to GitHub Pages
 
+# Builds the Astro site and publishes ./dist to GitHub Pages on every push to
+# master. The custom domain comes from public/CNAME (pechgroup.com); DNS for the
+# domain must point at GitHub Pages (see README "Deploy").
 on:
   push:
-    branches: [master]
-  pull_request:
     branches: [master]
   workflow_dispatch:
 
@@ -12,31 +13,31 @@ permissions:
   pages: write
   id-token: write
 
-# One deploy at a time per ref; never cancel a deploy that is already running.
 concurrency:
-  group: pages-${{ github.ref }}
+  group: pages
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-      - name: Build with Astro
-        uses: withastro/action@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
 
   deploy:
-    # Pull requests only run the build (CI); publishing happens on master.
-    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+      - id: deployment
+        uses: actions/deploy-pages@v4

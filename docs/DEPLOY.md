@@ -2,7 +2,11 @@
 
 El build y la publicación los hace `.github/workflows/deploy.yml` en cada push a
 `master` (y manualmente desde Actions > "Deploy to GitHub Pages" > Run workflow).
-En los pull requests solo corre el build, no publica.
+Los pull requests se validan con `.github/workflows/ci.yml` (no publican).
+
+Mientras Pages no esté activado (paso 1), el job `deploy` falla con
+"Failed to create deployment (status: 404)". Después de activarlo, volver a
+correr el workflow desde Actions > "Deploy to GitHub Pages" > Run workflow.
 
 Estos pasos se hacen **una sola vez, fuera del repo**:
 

@@ -1,0 +1,246 @@
+---
+import { ui, ventures, mailto, CONTACT_EMAIL, LINKEDIN_URL, SHOW_TODOS, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = ui[lang].home;
+const investorsHref = mailto(t.investors.subject);
+const speakingHref = mailto(t.speaking.subject);
+---
+
+<!-- HERO — positioning -->
+<section class="hero bg-darker sec" aria-labelledby="hero-title">
+  <div class="wrap">
+    <p class="lbl">{t.hero.eyebrow}</p>
+    <h1 id="hero-title">{t.hero.h1a}<br/><span class="teal">{t.hero.h1b}</span></h1>
+    <p class="hero__sub">{t.hero.sub}</p>
+    <div class="hero__btns">
+      <a href={investorsHref} class="btn btn-teal">{t.investors.lbl}</a>
+      <a href={speakingHref} class="btn btn-ghost">{t.speaking.lbl}</a>
+    </div>
+
+    <ul class="hero__stats">
+      {t.hero.facts.map(f => (
+        <li class="stat">
+          <span class="stat__n">{f.n}</span>
+          <span class="stat__l">{f.l}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- VENTURES — one card per venture -->
+<section id="ventures" class="bg-light sec" aria-labelledby="ventures-title">
+  <div class="wrap">
+    <p class="lbl">{t.ventures.lbl}</p>
+    <h2 id="ventures-title">{t.ventures.h2}</h2>
+    <p class="intro-p">{t.ventures.intro}</p>
+
+    <ul class="vn-grid">
+      {ventures.map((v, i) => (
+        <li class:list={['vn-card', { 'vn-card--dark': v.internal }]}>
+          <span class="vn-card__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <p class="vn-card__tag">{v.tag[lang]}</p>
+          <h3>
+            {v.name}
+            {v.alias && <span class="vn-card__alias"> · {v.alias}</span>}
+          </h3>
+          <p class="vn-card__line">{v.line[lang]}</p>
+          {v.url && (
+            <a href={v.url} class="vn-card__link" rel="noopener" target="_blank">
+              {t.ventures.website} <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {v.internal && (
+            <a href={v.internal} class="vn-card__link" hreflang={lang === 'es' ? 'en' : undefined}>
+              {t.ventures.more} <span aria-hidden="true">→</span>
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<!-- CHAIRMAN BIO -->
+<section id="chairman" class="bg-white sec" aria-labelledby="chairman-title">
+  <div class="wrap bio">
+    <div class="bio__photo">
+      {/* [TODO: Ed — headshot] When available, replace the monogram with an optimized image, e.g.
+          <img src="/images/ed-pereda.webp" alt={t.bio.photoAlt} width="480" height="600"
+               loading="lazy" decoding="async" /> */}
+      <div class="bio__monogram" aria-hidden="true">EP</div>
+      {SHOW_TODOS && <p><span class="todo">{t.bio.todoPhoto}</span></p>}
+    </div>
+    <div class="bio__text">
+      <p class="lbl">{t.bio.lbl}</p>
+      <div class="teal-bar"></div>
+      <h2 id="chairman-title">{t.bio.name}</h2>
+      <ul class="bio__roles">
+        {t.bio.roles.map(r => <li>{r}</li>)}
+      </ul>
+      <p>{t.bio.p1}</p>
+      <p>{t.bio.p2}</p>
+      {SHOW_TODOS && <p><span class="todo">{t.bio.todoBackground}</span></p>}
+      <p>
+        <a href={LINKEDIN_URL} class="bio__link" target="_blank" rel="noopener">
+          {t.bio.linkedin} <span aria-hidden="true">↗</span>
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CTAs — Investors + Speaking -->
+<div class="bg-darker sec">
+  <div class="wrap">
+    <div class="cta-grid">
+      <section id="investors" class="cta-card" aria-labelledby="investors-title">
+        <p class="lbl">{t.investors.lbl}</p>
+        <h2 id="investors-title">{t.investors.h2}</h2>
+        <p>{t.investors.p}</p>
+        {SHOW_TODOS && <p><span class="todo">{t.investors.todo}</span></p>}
+        <a href={investorsHref} class="btn btn-teal">{t.investors.cta}</a>
+      </section>
+      <section id="speaking" class="cta-card" aria-labelledby="speaking-title">
+        <p class="lbl">{t.speaking.lbl}</p>
+        <h2 id="speaking-title">{t.speaking.h2}</h2>
+        <p>{t.speaking.p}</p>
+        {SHOW_TODOS && <p><span class="todo">{t.speaking.todo}</span></p>}
+        <a href={speakingHref} class="btn btn-teal">{t.speaking.cta}</a>
+      </section>
+    </div>
+    <p class="cta-note">
+      {t.emailNote} <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+    </p>
+  </div>
+</div>
+
+<style>
+.teal { color:var(--teal); }
+[id] { scroll-margin-top:80px; }
+
+/* Hero */
+.hero { min-height:88vh; display:flex; align-items:center; }
+.hero h1 { margin:0.5rem 0 1.25rem; overflow-wrap:break-word; }
+.hero .hero__sub {
+  font-size:var(--t3); color:rgba(255,255,255,0.7);
+  max-width:60ch; margin-bottom:2rem; line-height:1.8;
+}
+.hero__btns { display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:3.5rem; }
+
+.hero__stats {
+  list-style:none;
+  display:flex; align-items:center; gap:2rem;
+  padding-top:2.5rem;
+  border-top:1px solid rgba(90,191,181,0.15);
+  flex-wrap:wrap;
+}
+.stat { padding-right:2rem; border-right:1px solid rgba(90,191,181,0.15); }
+.stat:last-child { border-right:none; padding-right:0; }
+.stat__n {
+  display:block; font-family:var(--font-h); font-size:1.75rem;
+  font-weight:700; color:var(--teal); line-height:1;
+}
+.stat__l { display:block; font-size:var(--fn); color:rgba(255,255,255,0.65); margin-top:3px; }
+
+/* Ventures */
+.intro-p { max-width:56ch; margin:0.75rem 0 2.5rem; }
+.vn-grid {
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+  gap:1px;
+  background:var(--gray-1);
+  border:1px solid var(--gray-1);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+.vn-card {
+  background:var(--white); padding:1.75rem;
+  display:flex; flex-direction:column; gap:0.5rem;
+}
+.vn-card__n {
+  font-family:var(--font-h); font-size:1.5rem; font-weight:700; line-height:1;
+  color:var(--teal-ink);
+}
+.vn-card .vn-card__tag {
+  font-family:var(--font-h); font-size:var(--fn);
+  letter-spacing:0.16em; text-transform:uppercase; color:var(--teal-ink);
+}
+.vn-card h3 { color:var(--dark); font-size:var(--t2); }
+.vn-card__alias { font-weight:400; color:var(--gray-3); font-size:var(--t3); }
+.vn-card .vn-card__line { color:var(--gray-3); }
+.vn-card__link {
+  display:inline-flex; align-items:center; gap:0.35rem;
+  min-height:var(--tap); margin-top:auto;
+  font-family:var(--font-h); font-size:var(--fn);
+  letter-spacing:0.06em; color:var(--teal-ink);
+}
+.vn-card__link:hover { text-decoration:underline; }
+
+.vn-card--dark { background:var(--dark-2); }
+.vn-card.vn-card--dark h3 { color:var(--white); }
+.vn-card--dark .vn-card__n,
+.vn-card--dark .vn-card__tag,
+.vn-card--dark .vn-card__link { color:var(--teal); }
+.vn-card--dark .vn-card__line { color:rgba(255,255,255,0.7); }
+
+/* Bio */
+.bio {
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
+  gap:4rem; align-items:start;
+}
+.bio__photo { display:flex; flex-direction:column; gap:0.75rem; }
+.bio__monogram {
+  aspect-ratio:4 / 5; width:100%; max-width:360px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--dark);
+  border:1px solid rgba(90,191,181,0.25); border-radius:var(--radius);
+  font-family:var(--font-h); font-size:4rem; font-weight:700;
+  letter-spacing:0.12em; color:var(--teal);
+}
+.bio__text { display:flex; flex-direction:column; gap:1rem; }
+.bio__text .teal-bar { margin-bottom:0; }
+.bio__text h2 { font-size:var(--t1); }
+.bio__link {
+  display:inline-flex; align-items:center; gap:0.35rem; min-height:var(--tap);
+  font-family:var(--font-h); font-size:var(--fn);
+  letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-ink);
+  text-decoration:underline; text-underline-offset:3px;
+}
+.bio__link:hover { color:var(--dark); }
+.bio__roles {
+  list-style:none; display:flex; flex-direction:column; gap:0.25rem;
+  font-family:var(--font-h); font-size:var(--fn);
+  letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-ink);
+}
+
+/* CTAs */
+.cta-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap:var(--gap); }
+.cta-card {
+  display:flex; flex-direction:column; align-items:flex-start; gap:1rem;
+  background:var(--dark-2);
+  border:1px solid rgba(90,191,181,0.15); border-radius:var(--radius);
+  padding:2rem;
+}
+.cta-card .lbl { margin-bottom:0; }
+.cta-card .btn { margin-top:auto; }
+.cta-note { margin-top:2rem; font-size:var(--fn); max-width:none; }
+.bg-darker .cta-note { color:rgba(255,255,255,0.65); }
+.cta-note a {
+  display:inline-flex; align-items:center; min-height:var(--tap);
+  color:var(--teal); text-decoration:underline; overflow-wrap:anywhere;
+}
+
+@media(max-width:860px) {
+  .bio { grid-template-columns:1fr; gap:2rem; }
+  .bio__monogram { max-width:220px; font-size:3rem; }
+}
+@media(max-width:520px) {
+  .stat { border-right:none; padding-right:0; }
+  .hero__stats { gap:1.25rem 2rem; }
+  .cta-card { padding:1.5rem; }
+}
+</style>
